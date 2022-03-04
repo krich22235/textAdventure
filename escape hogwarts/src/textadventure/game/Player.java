@@ -10,8 +10,8 @@ public class Player {
         inventory = new HashMap<>();
     }
     
-    public void setItem (String name, Item item) {
-        inventory.put(name, item);
+    public void setItem (String name, Item itemToSearch) {
+        inventory.put(name, itemToSearch);
     }
     
     public Item removeItem(String key) {
@@ -32,7 +32,7 @@ public class Player {
         return returnString;
     }
     
-    public String searchRoom(String key) {
+    public String searchRoom(String item2) {
         String returnString = "item description: ";
         
         Set <String> keys =  inventory.keySet() ;
@@ -41,5 +41,5 @@ public class Player {
         }
         return returnString;
     }
-    
+
 }

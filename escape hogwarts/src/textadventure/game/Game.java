@@ -1,13 +1,16 @@
 package textadventure.game;
 
 
+import java.util.HashMap;
 import java.util.Set;
+
 
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
 	private Player player;
 	private CLS cls_var;
+	private HashMap <String, Item> inventory;
 
 	public Game() {
 	    parser = new Parser();
@@ -40,11 +43,12 @@ public class Game {
 	    System.out.println("/ ._><_-</ | '<_> || . \\/ ._>    | . |/ . \\/ . || | | |<_> || '_> | | <_-<");
 	    System.out.println("\\___./__/\\_|_.<___||  _/\\___.    |_|_|\\___/\\_. ||__/_/ <___||_|   |_| /__/");
 	    System.out.println("                   |_|                     <___'                          ");
+		System.out.println("\n");
 	}
 	
 	public void printIntro() {
 		//Program introduces the text adventure to the player, providing BOTH instruction on how to play and flavor text to introduce the lore/environment of the game.//
-		
+		System.out.println("The game based off of your favorite movie and book series, Harry Potter, escape hogwarts is the perfect game for those who love the movies and books." + "\n" + "Type 'play' to start and enter the game by using commands such as 'go', 'speak', 'grab', 'drop', 'look', 'help', 'toss', 'open', and 'search'."); 
 	}
 
 	public void setupGame() {
@@ -93,7 +97,7 @@ public class Game {
 	    Item food = new Item ("food", "you smell food. some kind of meat and some garlic. you are hungry.");
 	    hagridsHut.setItem("food", food);
 
-	        
+	    
 	    currentRoom = threeBroomsticks;
 
 	    try {
@@ -107,8 +111,21 @@ public class Game {
 	    System.out.println("To enter the game, type 'play'.");
 	    play();   
 	    printInformation();
+	    getInventoryString();
 	}
 
+	public String getInventoryString() {
+        String returnString = "Player Inventory: ";
+        Set <String> keys =  inventory.keySet() ;
+        if (player.getInventoryString().equals(null)) {
+    		return returnString;
+    	} 
+        for (String item: keys) {
+            returnString += " " + item;
+        }
+        return returnString;
+    }
+	
 	public void play() {
 	    while(true) {            
 	        Command command = parser.getCommand(); 
@@ -147,8 +164,8 @@ public class Game {
 	            toss(command);
 	        case "open":
 	            open(command);
-	        //case "search":
-	            //search(command);
+	        case "search":
+	            search(command);
 	    }
 	}
 	    
@@ -246,6 +263,7 @@ public class Game {
 	        else {
 	            printString += "\nYou cannot look at that";
 	        }
+	        	
 	        System.out.println (printString);
 	    }
 	    
@@ -267,21 +285,9 @@ public class Game {
 	        else {
 	            currentRoom= nextRoom;
 	        }
+	    }
 	    
-	    /*public void search(Command command) {
-	        String item;
-	        if(!command.hasSecondWord()) {
-	            System.out.println("search what?");
-	            return;
-	        }
-	        item = command.getSecondWord();
-	        Item itemToSearch = player.searchRoom(item);
-	        if (itemToSearch == null) {
-	            System.out.println("you cannot search that!");
-	            return;
-	        }
-	        else {
-	            currentRoom.setItem(item, itemToSearch);
-	        }*/
-		}
+	    public void search(Command command) {
+	    }
+	    
 	}
